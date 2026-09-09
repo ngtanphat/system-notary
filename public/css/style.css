@@ -27,6 +27,58 @@
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(117, 118, 130, 0.5); }
 
-/* Custom TipTap Editor (Loại bỏ viền focus mặc định) */
+/* Custom TipTap Editor */
 .ProseMirror { outline: none !important; min-height: 297mm; }
 .ProseMirror p { margin-bottom: 0.5rem; }
+
+/* =========================================================
+   MOBILE RESPONSIVE CHO BẢNG (TABLE TO CARD)
+========================================================= */
+@media (max-width: 1023px) {
+    .mobile-card-table table, 
+    .mobile-card-table tbody, 
+    .mobile-card-table tr, 
+    .mobile-card-table td {
+        display: block;
+        width: 100%;
+    }
+    
+    .mobile-card-table thead {
+        display: none;
+    }
+    
+    .mobile-card-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        padding: 0.5rem;
+    }
+    
+    .mobile-card-table td {
+        display: flex;
+        flex-direction: column;
+        padding: 0.75rem !important;
+        border-bottom: 1px dashed #e2e8f0;
+        text-align: left !important;
+    }
+    
+    .mobile-card-table td:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-card-table td::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #3b82f6;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .mobile-card-table table {
+        min-width: 100% !important;
+    }
+}

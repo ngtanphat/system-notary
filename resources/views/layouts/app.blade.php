@@ -36,16 +36,16 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<!-- Khai báo Alpine.js state dùng chung (Menu, Toast) -->
 <body class="bg-[#f4f7fb] text-on-surface font-body-md min-h-screen flex flex-col overflow-hidden selection:bg-blue-200" 
       x-data="{ mobileMenuOpen: false, toastMessage: '', showToast: false }" 
       @notify.window="toastMessage = $event.detail; showToast = true; setTimeout(() => showToast = false, 3000)">
     
     <!-- Top Navigation -->
     <nav class="sticky top-0 z-[100] flex items-center justify-between px-4 sm:px-6 h-16 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm shrink-0">
+        
         <!-- Logo & Nút Mobile -->
         <div class="flex items-center gap-3 h-full">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden p-1.5 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden p-1.5 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors focus:outline-none">
                 <span class="material-symbols-outlined text-[26px]">menu</span>
             </button>
             <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 shrink-0 group">
@@ -58,19 +58,19 @@
             </a>
         </div>
         
-        <!-- Menu Ngang -->
-        <div class="hidden xl:flex gap-1 lg:gap-3 items-end h-full pt-3 flex-1 justify-center">
-            @php
-                $navItems = [
-                    ['route' => 'dashboard', 'label' => 'Trang Chủ'],
-                    ['route' => 'hoso.soan', 'label' => 'Soạn Hồ Sơ'],
-                    ['route' => 'template', 'label' => 'Mẫu In'],
-                    ['route' => 'kekhaihoso', 'label' => 'Kê Khai Hồ Sơ'],
-                    ['route' => 'vpp', 'label' => 'Quản Lý VPP'],
-                    ['route' => 'tracuu', 'label' => 'Tra Cứu', 'is_red' => true],
-                ];
-            @endphp
+        @php
+            $navItems = [
+                ['route' => 'dashboard', 'label' => 'Trang Chủ'],
+                ['route' => 'hoso.soan', 'label' => 'Soạn Hồ Sơ'],
+                ['route' => 'template', 'label' => 'Mẫu In'],
+                ['route' => 'kekhaihoso', 'label' => 'Kê Khai Hồ Sơ'],
+                ['route' => 'vpp', 'label' => 'Quản Lý VPP'],
+                ['route' => 'tracuu', 'label' => 'Tra Cứu', 'is_red' => true],
+            ];
+        @endphp
 
+        <!-- Menu Ngang (Desktop) -->
+        <div class="hidden xl:flex gap-1 lg:gap-3 items-end h-full pt-3 flex-1 justify-center">
             @foreach($navItems as $item)
                 @php 
                     $isActive = request()->routeIs($item['route']); 
@@ -82,42 +82,67 @@
                 </a>
             @endforeach
 
-            <!-- Admin Dropdown (Alpine) -->
+            <!-- Admin Dropdown (Đã sửa đồng bộ giao diện) -->
+            @php
+                $isAdminActive = request()->routeIs('users.index') || request()->routeIs('settings');
+            @endphp
             <div class="relative h-full flex items-end" x-data="{ adminMenu: false }" @click.outside="adminMenu = false">
-                <button @click="adminMenu = !adminMenu" class="text-slate-500 hover:text-blue-900 transition-colors px-3 py-2 pb-1 rounded-t-lg whitespace-nowrap flex items-center gap-1 cursor-pointer">
+                <button @click="adminMenu = !adminMenu" 
+                        class="{{ $isAdminActive ? 'text-blue-700 font-bold border-b-[3px] border-blue-600 bg-blue-50/50' : 'text-slate-500 hover:text-blue-900 hover:bg-slate-100/80 border-b-[3px] border-transparent font-semibold' }} transition-colors px-3 py-2 pb-1 rounded-t-lg whitespace-nowrap flex items-center gap-1 cursor-pointer focus:outline-none">
                     Quản Lý <span class="material-symbols-outlined text-[18px]">expand_more</span>
                 </button>
-                <div x-show="adminMenu" x-transition style="display: none;" class="absolute left-0 top-[60px] w-48 bg-white rounded-b-xl rounded-tr-xl shadow-xl border border-slate-200 z-50">
-                    <a href="{{ route('users.index') }}" class="px-4 py-2.5 text-[13px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 flex items-center gap-3">
+                <div x-show="adminMenu" x-transition style="display: none;" class="absolute left-0 top-full mt-0 w-48 bg-white rounded-b-xl rounded-tr-xl shadow-xl border border-slate-200 z-50 overflow-hidden">
+                    <a href="{{ route('users.index') }}" class="px-4 py-2.5 text-[13px] font-semibold {{ request()->routeIs('users.index') ? 'text-blue-700 bg-blue-50' : 'text-slate-700 hover:bg-slate-50 hover:text-blue-600' }} flex items-center gap-3 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">group</span> Quản lý tài khoản
                     </a>
-                    <a href="{{ route('settings') }}" class="px-4 py-2.5 text-[13px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 flex items-center gap-3">
+                    <a href="{{ route('settings') }}" class="px-4 py-2.5 text-[13px] font-semibold {{ request()->routeIs('settings') ? 'text-blue-700 bg-blue-50' : 'text-slate-700 hover:bg-slate-50 hover:text-blue-600' }} flex items-center gap-3 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">settings</span> Cài đặt hệ thống
                     </a>
                 </div>
             </div>
         </div>
         
-        <!-- User Avatar Dropdown (Alpine) -->
+        <!-- User Avatar Dropdown -->
         <div class="flex items-center gap-4 shrink-0 relative z-50" x-data="{ userMenu: false }" @click.outside="userMenu = false">
             <button @click="userMenu = !userMenu" class="flex items-center gap-1.5 p-1 rounded-full hover:bg-slate-100 transition-colors focus:outline-none">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-700 to-blue-900 text-white flex items-center justify-center font-bold text-[13px]">A</div>
                 <span class="material-symbols-outlined text-slate-400 text-[18px]">expand_more</span>
             </button>
-            <div x-show="userMenu" x-transition style="display: none;" class="absolute right-0 top-12 mt-1 w-56 bg-white rounded-xl shadow-xl border border-slate-200 z-50">
+            <div x-show="userMenu" x-transition style="display: none;" class="absolute right-0 top-12 mt-1 w-56 bg-white rounded-xl shadow-xl border border-slate-200 z-50 overflow-hidden">
                 <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
                     <p class="text-[13px] font-bold text-slate-900 truncate">Nguyễn Thành Mỹ</p>
                     <p class="text-[11px] font-bold text-blue-600 uppercase mt-0.5">Quản Trị Viên</p>
                 </div>
-                <a href="{{ route('profile') }}" class="px-4 py-2.5 text-[13px] font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 flex items-center gap-2.5">
+                <a href="{{ route('profile') }}" class="px-4 py-2.5 text-[13px] font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 flex items-center gap-2.5 transition-colors">
                     <span class="material-symbols-outlined text-[18px] text-slate-400">manage_accounts</span> Hồ sơ cá nhân
                 </a>
             </div>
         </div>
     </nav>
 
+    <!-- Menu Mobile (Đã bổ sung toàn bộ liên kết) -->
+    <div x-show="mobileMenuOpen" style="display: none;" class="absolute top-16 left-0 w-full bg-white border-b border-slate-200 shadow-xl z-40 xl:hidden max-h-[calc(100vh-64px)] overflow-y-auto" x-transition>
+        <div class="flex flex-col p-4 space-y-1">
+            @foreach($navItems as $item)
+                @php 
+                    $isActive = request()->routeIs($item['route']); 
+                    $colorClass = isset($item['is_red']) ? 'red' : 'blue';
+                @endphp
+                <a href="{{ route($item['route']) }}" class="px-4 py-3 rounded-xl text-[15px] font-semibold {{ $isActive ? 'bg-'.$colorClass.'-50 text-'.$colorClass.'-700' : 'text-slate-600 active:bg-slate-50' }}">
+                    {{ $item['label'] }}
+                </a>
+            @endforeach
+            
+            <!-- Quản trị hệ thống trên Mobile -->
+            <div class="h-px bg-slate-200 my-2"></div>
+            <p class="px-4 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Dành cho Admin</p>
+            <a href="{{ route('users.index') }}" class="px-4 py-3 rounded-xl text-[15px] font-semibold {{ request()->routeIs('users.index') ? 'bg-slate-100 text-slate-900' : 'text-slate-600 active:bg-slate-50' }}">Quản lý tài khoản</a>
+            <a href="{{ route('settings') }}" class="px-4 py-3 rounded-xl text-[15px] font-semibold {{ request()->routeIs('settings') ? 'bg-slate-100 text-slate-900' : 'text-slate-600 active:bg-slate-50' }}">Cài đặt hệ thống</a>
+        </div>
+    </div>
+
     <!-- Main Workspace -->
-    <main class="flex-1 relative overflow-hidden flex flex-col bg-transparent">
+    <main class="flex-1 relative overflow-hidden flex flex-col bg-transparent" @click="mobileMenuOpen = false">
         @yield('content')
     </main>
 
