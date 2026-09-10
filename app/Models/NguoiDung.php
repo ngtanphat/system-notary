@@ -12,10 +12,10 @@ class NguoiDung extends Authenticatable
     protected $table = 'nguoi_dung';
 
     protected $fillable = [
-        'vai_tro_id',
-        'ten_dang_nhap',
-        'ho_ten',
-        'mat_khau',
+        'vai_tro_id', 
+        'ten_dang_nhap', 
+        'ho_ten', 
+        'mat_khau', 
         'trang_thai'
     ];
 

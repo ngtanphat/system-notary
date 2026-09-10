@@ -2,6 +2,9 @@
 @section('title', 'Trang Chủ')
 
 @section('content')
+<?php
+var_dump("tài khoản đã đăng nhập: ");
+?>
 <div class="p-4 sm:p-6 overflow-y-auto custom-scrollbar animate-fade-in w-full h-[calc(100vh-64px)] bg-[#eaf1ff]">
     <div class="w-full flex flex-col gap-6 sm:gap-8">
         

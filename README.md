@@ -1,66 +1,42 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# NotaryOS - Hệ thống Quản trị Văn phòng Công chứng
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Tổng quan Dự án (Overview)
+NotaryOS là một hệ thống phần mềm ERP (Enterprise Resource Planning) được thiết kế đo ni đóng giày cho quy trình vận hành thực tế tại Văn phòng Công chứng. Hệ thống tập trung vào tính bảo mật, hiệu năng cao và khả năng hoạt động độc lập (Offline-first) ngay cả khi mất kết nối Internet quốc tế.
 
-## About Laravel
+## 2. Ngăn xếp Công nghệ (Tech Stack)
+*   **Backend:** Laravel (PHP)
+*   **Cơ sở dữ liệu:** Microsoft SQL Server
+*   **Frontend:** 
+    *   HTML5 / Blade Template
+    *   Tailwind CSS (Chạy nội bộ không cần Node.js/CDN)
+    *   Alpine.js (Quản lý trạng thái, DOM thao tác nhẹ)
+*   **Rich Text Editor:** TipTap (Xử lý hợp đồng động)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 3. Kiến trúc Cơ sở dữ liệu (Database Schema)
+Hệ thống sử dụng 100% tên bảng và trường dữ liệu bằng Tiếng Việt (chuẩn Snake Case) để sát với nghiệp vụ pháp lý, bao gồm 13 bảng cốt lõi:
+1.  `vai_tro` (Quản lý phân quyền)
+2.  `nguoi_dung` (Tài khoản nội bộ)
+3.  `khach_hang` (Kho dữ liệu định danh)
+4.  `tai_san` (Kho dữ liệu tài sản)
+5.  `loai_ho_so` (Phân loại hợp đồng)
+6.  `mau_in_hop_dong` (Lưu trữ template HTML)
+7.  `ho_so` (Trung tâm xử lý nghiệp vụ)
+8.  `ho_so_khach_hang` (Bảng trung gian pivot)
+9.  `ho_so_tai_san` (Bảng trung gian pivot)
+10. `luu_tru_vat_ly` (Định vị kho lưu trữ giấy)
+11. `tai_lieu_dinh_kem` (Quản lý bản scan PDF/ảnh)
+12. `vat_tu` (Quản lý văn phòng phẩm)
+13. `lich_su_vat_tu` (Lịch sử tiêu hao)
+14. `cai_dat_he_thong` (Tham số vận hành)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 4. Kiến trúc Giao diện (UI Architecture)
+*   **Master Layout:** Sử dụng nguyên tắc DRY (Don't Repeat Yourself) thông qua file `layouts/app.blade.php`.
+*   **Độc lập nhận diện:** Trang đăng nhập được thiết kế tách biệt hoàn toàn khỏi Layout chính.
+*   **Màu sắc thương hiệu:** Sử dụng hệ màu thiết lập sẵn `ntm-blue` (#004e89), `ntm-gold` (#cf9c3f), `ntm-dark` (#0a2540).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 5. Tiến độ hiện tại
+- [x] Giai đoạn 1: Thiết kế và chốt giao diện HTML tĩnh.
+- [x] Giai đoạn 2: Xây dựng cấu trúc CSDL SQL Server và Models.
+- [x] Giai đoạn 3: Tối ưu UI sang dạng Blade Layouts & Offline Assets.
+- [ ] Giai đoạn 4: Viết Controller xử lý luồng Authentication (Đăng nhập).
+- [ ] Giai đoạn 5: Phát triển các Module nghiệp vụ cốt lõi (CRUD).
