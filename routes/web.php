@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\XacThucController;
+use App\Http\Controllers\TrangChuController;
 
 // 1. Truy cập đầu tiên sẽ trỏ thẳng vào trang Đăng nhập
 Route::get('/', function () { return view('dang-nhap'); })->name('login');
@@ -11,7 +12,8 @@ Route::post('/xu-ly-dang-nhap', [XacThucController::class, 'xuLyDangNhap'])->nam
 Route::post('/dang-xuat', [XacThucController::class, 'dangXuat'])->name('logout');
 
 // 2. Các route khác của hệ thống
-Route::get('/trang-chu', function () { return view('trang-chu'); })->name('dashboard');
+// Route::get('/trang-chu', function () { return view('trang-chu'); })->name('dashboard');
+Route::get('/trang-chu', [TrangChuController::class, 'index'])->name('dashboard');
 Route::get('/soan-ho-so', function () { return view('soan-ho-so'); })->name('hoso.soan');
 Route::get('/mau-in', function () { return view('mau-in'); })->name('template');
 Route::get('/ke-khai-ho-so', function () { return view('ke-khai-ho-so'); })->name('kekhaihoso');

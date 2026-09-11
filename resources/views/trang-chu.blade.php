@@ -3,7 +3,7 @@
 
 @section('content')
 <?php
-var_dump("tài khoản đã đăng nhập: ");
+// var_dump("tài khoản đã đăng nhập: ");
 ?>
 <div class="p-4 sm:p-6 overflow-y-auto custom-scrollbar animate-fade-in w-full h-[calc(100vh-64px)] bg-[#eaf1ff]">
     <div class="w-full flex flex-col gap-6 sm:gap-8">
@@ -28,7 +28,8 @@ var_dump("tài khoản đã đăng nhập: ");
                 <div>
                     <p class="text-slate-500 font-bold text-xs uppercase tracking-widest">Tổng hồ sơ (Năm)</p>
                     <div class="flex items-end gap-2 mt-1">
-                        <span class="text-4xl font-black text-slate-900">342</span>
+                        <!-- <span class="text-4xl font-black text-slate-900">342</span> -->
+                         <span class="text-4xl font-black text-slate-900">{{ $tongHoSoNam }}</span>
                         <span class="text-indigo-500 text-xs font-bold mb-1.5 ml-1">Năm 2026</span>
                     </div>
                 </div>
