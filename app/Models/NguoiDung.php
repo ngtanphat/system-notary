@@ -29,4 +29,15 @@ class NguoiDung extends Authenticatable
     {
         return $this->mat_khau;
     }
+
+    public function getTenVaiTroAttribute()
+    {
+        return match ((int) $this->vai_tro_id) {
+            1 => 'Quản Trị Viên',
+            2 => 'Công Chứng Viên',
+            3 => 'Thư Ký Nghiệp Vụ',
+            4 => 'Công Nghệ Thông Tin',
+            default => 'Chưa phân quyền',
+        };
+    }
 }

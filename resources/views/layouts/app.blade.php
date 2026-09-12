@@ -38,6 +38,12 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+
+if (!Auth::check()) {
+    return view('dang-nhap.blade.php');
+} else {
+    echo 'Login Success';
+}
 ?>
 
 <body class="bg-[#f4f7fb] text-on-surface font-body-md min-h-screen flex flex-col overflow-hidden selection:bg-blue-200"
@@ -116,8 +122,8 @@ use Illuminate\Support\Facades\Auth;
             </button>
             <div x-show="userMenu" x-transition style="display: none;" class="absolute right-0 top-12 mt-1 w-56 bg-white rounded-xl shadow-xl border border-slate-200 z-50 overflow-hidden">
                 <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
-                    <p class="text-[13px] font-bold text-slate-900 truncate"><?php echo Auth::user()->ho_ten ?></p>
-                    <p class="text-[11px] font-bold text-blue-600 uppercase mt-0.5"><?php dd(Auth::user()) ?></p>
+                    <p class="text-[13px] font-bold text-slate-900 truncate">{{auth()->user()->ho_ten}}</p>
+                    <p class="text-[11px] font-bold text-blue-600 uppercase mt-0.5">{{auth()->user()->ten_vai_tro}}</p>
                 </div>
                 <a href="{{ route('profile') }}" class="px-4 py-2.5 text-[13px] font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 flex items-center gap-2.5 transition-colors">
                     <span class="material-symbols-outlined text-[18px] text-slate-400">manage_accounts</span> Hồ sơ cá nhân
